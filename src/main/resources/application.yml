@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1:3306/crawler?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC&autoConnect=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    test-on-borrow: false
+    test-while-idle: true
+    max-conn-lifetime-millis: 3600000
+
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+
+logging:
+  file: logs/app.log
+  level:
+    com:
+      example:
+        crawler: info
+
+crawler:
+  pageno: 1000
+
