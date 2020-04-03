@@ -6,6 +6,7 @@ import com.example.crawler.pipeline.BugPipeline;
 import com.example.crawler.pipeline.PatchPipeline;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,11 +19,11 @@ import us.codecraft.webmagic.pipeline.ConsolePipeline;
 @EnableScheduling
 public class CrawlerApplication implements CommandLineRunner {
 
-    @Autowired
-    private BugPageProcessor bugPageProcessor;
+    @Value("${crawler.max-bug-page}")
+    private int MAX_BUG_PAGE;
+    @Value("${crawler.max-patch-page}")
+    private int MAX_PATCH_PAGE;
 
-    @Autowired
-    private PatchPageProcessor patchPageProcessor;
     @Autowired
     private BugPipeline bugPipeline;
 
@@ -35,19 +36,28 @@ public class CrawlerApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        /*Spider.create(bugPageProcessor)
-                .addUrl("http://www.cnnvd.org.cn/web/vulnerability/querylist.tag?pageno=1&repairLd=")
-                //.addUrl("https://www.zhihu.com/explore")
-                .addPipeline(bugPipeline)
-                .thread(4)
-                .run();
+        /**
+        int currentPage = 1;
+        while(currentPage < MAX_BUG_PAGE) {
+            BugPageProcessor bugPageProcessor = new BugPageProcessor(MAX_BUG_PAGE, currentPage);
+            Spider.create(bugPageProcessor)
+                    .addUrl("http://www.cnnvd.org.cn/web/vulnerability/querylist.tag?pageno=" + currentPage + "&repairLd=")
+                    .addPipeline(bugPipeline)
+                    .thread(4)
+                    .run();
+            currentPage = bugPageProcessor.getPageno();
+        }
 
-        Spider.create(patchPageProcessor)
-                .addUrl("http://www.cnnvd.org.cn/web/cnnvdpatch/querylist.tag?pageno=1")
-                .addPipeline(patchPipeline)
-                .thread(4)
-                .run();
-
+        currentPage = 1;
+        while(currentPage < MAX_PATCH_PAGE) {
+            PatchPageProcessor patchPageProcessor = new PatchPageProcessor(MAX_PATCH_PAGE, currentPage);
+            Spider.create(patchPageProcessor)
+                    .addUrl("http://www.cnnvd.org.cn/web/cnnvdpatch/querylist.tag?pageno=1")
+                    .addPipeline(patchPipeline)
+                    .thread(4)
+                    .run();
+            currentPage = patchPageProcessor.getPageno();
+        }
          */
     }
 }

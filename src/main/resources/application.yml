@@ -19,5 +19,7 @@ logging:
         crawler: info
 
 crawler:
-  pageno: 1000
+  max-bug-page: 14226
+  max-patch-page: 7546
+  everyday-page: 50
 

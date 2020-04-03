@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class PatchPageProcessor implements PageProcessor {
 
     private Site site = Site.me().setRetryTimes(3).setSleepTime(3000).setTimeOut(600000);
-    @Value("${crawler.pageno}")
+    @Value("${crawler.everyday-page}")
     private int MAX_PAGE;
     private AtomicInteger pageno = new AtomicInteger(1);
     private AtomicInteger retryCount = new AtomicInteger(1);
@@ -110,5 +110,18 @@ public class PatchPageProcessor implements PageProcessor {
         }else{
             return s.trim();
         }
+    }
+
+    public PatchPageProcessor() {
+
+    }
+
+    public PatchPageProcessor(int maxPage, int pageno) {
+        this.MAX_PAGE = maxPage;
+        this.pageno.set(pageno);
+    }
+
+    public int getPageno() {
+        return pageno.get();
     }
 }

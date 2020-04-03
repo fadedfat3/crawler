@@ -24,18 +24,19 @@ public class CrawlerTask {
     private PatchPipeline patchPipeline;
 
 
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 27 14 * * *")
     public void scheduled() {
         Spider.create(bugPageProcessor)
                 .addUrl("http://www.cnnvd.org.cn/web/vulnerability/querylist.tag?pageno=1&repairLd=")
                 .addPipeline(bugPipeline)
                 .thread(4)
-                .run();
+                .start();
 
         Spider.create(patchPageProcessor)
                 .addUrl("http://www.cnnvd.org.cn/web/cnnvdpatch/querylist.tag?pageno=1")
                 .addPipeline(patchPipeline)
                 .thread(4)
-                .run();
+                .start();
     }
+
 }
