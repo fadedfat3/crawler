@@ -24,7 +24,7 @@ public class CrawlerTask {
     private PatchPipeline patchPipeline;
 
 
-    @Scheduled(cron = "0 27 14 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void scheduled() {
         Spider.create(bugPageProcessor)
                 .addUrl("http://www.cnnvd.org.cn/web/vulnerability/querylist.tag?pageno=1&repairLd=")

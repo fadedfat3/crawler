@@ -22,4 +22,4 @@ crawler:
   max-bug-page: 14226
   max-patch-page: 7546
   everyday-page: 50
-
+  once: false
