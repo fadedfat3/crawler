@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org//dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.crawler.mapper.BugMapper">
     <insert id="insert" parameterType="com.example.crawler.model.BugModel">
-        insert into bug(name, degree, type, threat_type, vendor, source, cve, cnnvd, description, notice, website, entity, created_time, updated_time)
-        values(#{name}, #{degree}, #{type}, #{threatType}, #{vendor}, #{source}, #{cve}, #{cnnvd}, #{description}, #{notice}, #{website}, #{entity}, #{createdTime}, #{updatedTime})
+        insert into bug(name, degree, score, type, threat_type, vendor, source, cve, cnnvd, description, notice, website, entity, created_time, updated_time)
+        values(#{name}, #{degree}, #{score}, #{type}, #{threatType}, #{vendor}, #{source}, #{cve}, #{cnnvd}, #{description}, #{notice}, #{website}, #{entity}, #{createdTime}, #{updatedTime})
     </insert>
 
     <select id="selectByCve" resultType="com.example.crawler.model.BugModel">
-        select id, name, degree, type, threat_type as threatType, vendor, source, cve, cnnvd, description, notice, website, entity, created_time as createdTime, updated_time as updatedTime
+        select id, name, degree, score, type, threat_type as threatType, vendor, source, cve, cnnvd, description, notice, website, entity, created_time as createdTime, updated_time as updatedTime
         from bug
         where cve = #{cve}
     </select>
@@ -17,6 +17,7 @@
         <trim suffixOverrides="," prefix="set ">
             <if test="name != null">name = #{name},</if>
             <if test="degree != null">degree = #{degree},</if>
+            <if test="score != null">score = #{score},</if>
             <if test="type != null">type = #{type},</if>
             <if test="threatType != null">threat_type = #{threatType},</if>
             <if test="vendor != null">vendor = #{vendor},</if>
@@ -34,7 +35,7 @@
         where id = #{id}
     </update>
     <select id="selectByCnnvd" resultType="com.example.crawler.model.BugModel">
-        select id, name, degree, type, threat_type as threatType, vendor, source, cve, cnnvd, description, notice, website, entity, created_time as createdTime, updated_time as updatedTime
+        select id, name, degree, score, type, threat_type as threatType, vendor, source, cve, cnnvd, description, notice, website, entity, created_time as createdTime, updated_time as updatedTime
         from bug
         where cnnvd = #{cnnvd}
     </select>

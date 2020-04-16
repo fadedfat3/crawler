@@ -10,6 +10,7 @@ public class BugModel {
     private Integer id;
     private String name;
     private String degree;
+    private double score;
     private String type;
     private String threatType;
     private String vendor;

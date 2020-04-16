@@ -2,8 +2,10 @@ package com.example.crawler;
 
 import com.example.crawler.pageProcessor.BugPageProcessor;
 import com.example.crawler.pageProcessor.PatchPageProcessor;
+import com.example.crawler.pageProcessor.ScorePageProcessor;
 import com.example.crawler.pipeline.BugPipeline;
 import com.example.crawler.pipeline.PatchPipeline;
+import com.example.crawler.pipeline.ScorePipeline;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +33,12 @@ public class CrawlerApplication implements CommandLineRunner {
 
     @Autowired
     private PatchPipeline patchPipeline;
+
+    @Autowired
+    private ScorePageProcessor scorePageProcessor;
+
+    @Autowired
+    private ScorePipeline scorePipeline;
 
     public static void main(String[] args) {
         SpringApplication.run(CrawlerApplication.class, args);
@@ -60,7 +68,12 @@ public class CrawlerApplication implements CommandLineRunner {
                         .run();
                 currentPage = patchPageProcessor.getPageno();
             }
-
+            Spider.create(scorePageProcessor)
+                    .addPipeline(scorePipeline)
+                    .setDownloader(new HttpClientDownloader())
+                    .addUrl("https://nvd.nist.gov/vuln/full-listing")
+                    .thread(4)
+                    .start();
         }
     }
 }
