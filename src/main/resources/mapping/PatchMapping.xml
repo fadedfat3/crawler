@@ -2,21 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org//dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.crawler.mapper.PatchMapper">
     <insert id="insert" parameterType="com.example.crawler.model.PatchModel" keyProperty="id" useGeneratedKeys="true">
-        insert into patch(name, cnpd, size, degree, time, vendor, vendor_homepage, md5, website, notice)
+        insert into tp_security_patch(name, cnpd, size, degree, time, vendor, vendor_homepage, md5, website, notice)
         values(#{name}, #{cnpd}, #{size}, #{degree}, #{time}, #{vendor}, #{vendorHomepage}, #{md5}, #{website}, #{notice})
     </insert>
     <select id="selectByCnpd" resultType="com.example.crawler.model.PatchModel">
         select id, name, cnpd, size, degree, time, vendor, vendor_homepage as vendorHomepage, md5, website, notice
-        from patch
+        from tp_security_patch
         where cnpd = #{cnpd}
     </select>
 
     <insert id="add">
-        insert into bug_patch(cnnvd, cnpd) values(#{cnnvd}, #{cnpd})
+        insert into tp_security_bug_patch(cnnvd, cnpd) values(#{cnnvd}, #{cnpd})
     </insert>
 
     <select id="select" resultType="com.example.crawler.model.BugPatchModel">
-        select * from bug_patch where cnnvd = #{cnnvd} and cnpd = #{cnpd}
+        select * from tp_security_bug_patch where cnnvd = #{cnnvd} and cnpd = #{cnpd}
     </select>
 
 </mapper>

@@ -1,12 +1,27 @@
 spring:
   datasource:
-    username: root
-    password: 123456
-    url: jdbc:mysql://127.0.0.1:3306/crawler?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC&autoConnect=true
+    type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     test-on-borrow: false
     test-while-idle: true
     max-conn-lifetime-millis: 3600000
+    username: root
+    password: Wangu123!@#
+    url: jdbc:mysql://192.168.70.159:3306/crawler?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC&autoConnect=true
+    druid:
+      auto-commit: true
+      #空闲连接超时时长
+      #连接超时时长
+      connection-timeout: 60000
+      #最大生命周期，0不过期
+      max-lifetime: 0
+      #最小空闲连接数
+      minimum-idle: 10
+      #最大连接数量
+      maximum-pool-size: 20
+      initial-size: 5
+      max-active: 20
+      max-wait: 60000
 
 mybatis:
   mapper-locations: classpath:mapping/*.xml

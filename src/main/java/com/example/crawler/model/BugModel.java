@@ -23,6 +23,7 @@ public class BugModel {
     private String entity;
     private String createdTime;
     private String updatedTime;
+    private String nvd;
 
 
 

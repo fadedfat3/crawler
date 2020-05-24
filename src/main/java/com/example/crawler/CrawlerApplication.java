@@ -47,7 +47,9 @@ public class CrawlerApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (once) {
-            int currentPage = 1;
+
+            int currentPage = 15000;
+            /*
             while (currentPage < MAX_BUG_PAGE) {
                 BugPageProcessor bugPageProcessor = new BugPageProcessor(MAX_BUG_PAGE, currentPage);
                 Spider.create(bugPageProcessor)
@@ -57,8 +59,8 @@ public class CrawlerApplication implements CommandLineRunner {
                         .run();
                 currentPage = bugPageProcessor.getPageno();
             }
-
-            currentPage = 1;
+            */
+            currentPage = 62;
             while (currentPage < MAX_PATCH_PAGE) {
                 PatchPageProcessor patchPageProcessor = new PatchPageProcessor(MAX_PATCH_PAGE, currentPage);
                 Spider.create(patchPageProcessor)
@@ -68,6 +70,8 @@ public class CrawlerApplication implements CommandLineRunner {
                         .run();
                 currentPage = patchPageProcessor.getPageno();
             }
+
+
             Spider.create(scorePageProcessor)
                     .addPipeline(scorePipeline)
                     .setDownloader(new HttpClientDownloader())

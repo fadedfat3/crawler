@@ -1,7 +1,10 @@
 package com.example.crawler.pageProcessor;
 
+import com.example.crawler.mapper.BugMapper;
+import com.example.crawler.model.BugModel;
 import com.example.crawler.model.ScoreModel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
@@ -21,6 +24,8 @@ public class ScorePageProcessor implements PageProcessor {
     private String URL_MONTH = "https://nvd\\.nist\\.gov/vuln/full-listing/\\d+/\\d+";
     private String URL_FULL_LIST = "https://nvd\\.nist\\.gov/vuln/full-listing";
     private String URL_DETAIL = "https://nvd\\.nist\\.gov/vuln/detail/CVE-\\d+-\\d+";
+    @Autowired
+    private BugMapper bugMapper;
     @Override
     public void process(Page page) {
         if (page.getUrl().regex(URL_FULL_LIST).match()) {
@@ -42,7 +47,13 @@ public class ScorePageProcessor implements PageProcessor {
         if (page.getUrl().regex(URL_MONTH).match()) {
             ArrayList<String> urls = new ArrayList<>(page.getHtml().links().regex(URL_DETAIL).all());
             if (!urls.isEmpty()) {
-                page.addTargetRequests(urls);
+                for(String url : urls) {
+                    String cve = url.substring(url.lastIndexOf("/")+1);
+                    BugModel bugModel =  bugMapper.selectByCve(cve);
+                    if (bugModel == null || bugModel.getScore() - 0 < 0.001) {
+                        page.addTargetRequest(url);
+                    }
+                }
             }
             page.setSkip(true);
         }
